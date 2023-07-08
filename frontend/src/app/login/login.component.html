@@ -1,0 +1,20 @@
+<div class="login-wrapper">
+  <mat-card>
+    <mat-card-content>
+      <form class="login-form">  
+        <mat-form-field appearance="outline">
+          <mat-label>Email</mat-label>
+          <input matInput placeholder="Enter your email" name="email" [(ngModel)]="email">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Password</mat-label>
+          <input matInput type="password" placeholder="Enter your password" name="password" [(ngModel)]="password">
+        </mat-form-field>  
+
+        <button mat-raised-button color="primary" type="submit" (click)="onSubmit(); false">Sign Up</button>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>
+

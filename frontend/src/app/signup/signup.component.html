@@ -1,0 +1,39 @@
+<!-- signup.component.html -->
+
+<!-- Angular Material card for the signup form -->
+<div class="signup-wrapper">
+  <mat-card>
+    <mat-card-content>
+      <!-- Signup form -->
+      <form class="signup-form">
+        <!-- Name field -->
+        <mat-form-field appearance="outline">
+          <mat-label>Name</mat-label>
+          <input matInput placeholder="Enter your name" name="name" [(ngModel)]="name">
+        </mat-form-field>
+  
+        <!-- Email field -->
+        <mat-form-field appearance="outline">
+          <mat-label>Email</mat-label>
+          <input matInput placeholder="Enter your email" name="email" [(ngModel)]="email">
+        </mat-form-field>
+  
+        <!-- Password field -->
+        <mat-form-field appearance="outline">
+          <mat-label>Password</mat-label>
+          <input matInput type="password" placeholder="Enter your password" name="password" [(ngModel)]="password">
+        </mat-form-field>
+  
+        <!-- Confirm password field -->
+        <mat-form-field appearance="outline">
+          <mat-label>Confirm Password</mat-label>
+          <input matInput type="password" placeholder="Confirm your password" name="confirmPassword" [(ngModel)]="confirmPassword">
+        </mat-form-field>
+  
+        <!-- Sign up button -->
+        <button mat-raised-button color="primary" type="submit" (click)="onSubmit(); false">Sign Up</button>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>
+
