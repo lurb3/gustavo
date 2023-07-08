@@ -23,7 +23,7 @@ class AuthController extends Controller
     public function login()
     {
         if (! auth()->attempt(request(['email', 'password']))) {
-            abort(403);
+            abort(401);
         }
 
         $token = auth()->user()->createToken('auth_token');
