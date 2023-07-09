@@ -14,9 +14,9 @@ class AuthController extends Controller
             'email' => 'required|email',
             'password' => 'required'
         ]);
-        
+
         $user = User::create(request(['name', 'email', 'password']));
-        
+
         auth()->login($user);
     }
 
@@ -37,7 +37,7 @@ class AuthController extends Controller
     public function logout()
     {
         $user = auth()->user();
-        
+
         if ($user) {
             $user->currentAccessToken()->delete();
         }

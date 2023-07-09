@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CompanyController;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,4 +26,12 @@ Route::post('/login', [AuthController::class, 'login']);
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/me', [AuthController::class, 'getMe']);
     Route::post('/logout', [AuthController::class, 'logout']);
+
+    Route::prefix('company')->group(function() {
+        Route::post('/', [CompanyController::class, 'create']);
+        Route::get('/', [CompanyController::class, 'show']);
+        Route::get('/{companyId}', [CompanyController::class, 'getCompanyById']);
+        Route::put('/{companyId}', [CompanyController::class, 'update']);
+        Route::delete('/{companyId}', [CompanyController::class, 'delete']);
+    });
 });

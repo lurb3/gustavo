@@ -13,8 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('personal_access_tokens', function (Blueprint $table) {
-            $table->timestamp('expires_at')->nullable();
+        Schema::create('company', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->string('role')->nullable();
+            $table->unsignedBigInteger('user_id');
+            $table->foreign('user_id')->references('id')->on('users');
+            $table->timestamps();
         });
     }
 
@@ -25,8 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('personal_access_tokens', function (Blueprint $table) {
-            //
-        });
+        Schema::dropIfExists('company');
     }
 };
