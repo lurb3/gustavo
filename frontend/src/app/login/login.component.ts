@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import Swal from 'sweetalert2';
 import axios from 'axios';
 
 @Component({
@@ -22,11 +23,24 @@ export class LoginComponent {
       },
       withCredentials: true
     })
-    const csrf = await http.get('/sanctum/csrf-cookie');
+    await http.get('/sanctum/csrf-cookie');
 
     const login = await http.post('/api/login', formData)
 
-    const user = await http.get('/api/me')
+    if (login.data) {
+      localStorage.setItem('authToken', login.data?.token);
+      Swal.fire(
+        'Logged in!',
+        'Good, you are in',
+        'success'
+      )
+    } else {
+      Swal.fire(
+        'Unauthorized',
+        'Incorrect email or password',
+        'error'
+      )
+    }
 
   }
 }

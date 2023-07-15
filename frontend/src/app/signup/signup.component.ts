@@ -1,4 +1,5 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import axios from 'axios';
 import { Component } from '@angular/core';
 
 @Component({
@@ -14,15 +15,18 @@ export class SignupComponent {
 
   constructor(private http: HttpClient) {}
 
-  onSubmit() {
-    const formData = { name: this.name, email: this.email, password: this.password };  
-    const headers = new HttpHeaders().set('Content-Type', 'application/json');
+  async onSubmit() {
+    const formData = { name: this.name, email: this.email, password: this.password };
 
-    this.http.post('http://localhost:8000/api/signup', formData, { headers })
-    .subscribe({
-      next: this.handleUpdateResponse.bind(this),
-      error: this.handleError.bind(this)
-   });
+    const http = axios.create({
+      baseURL: 'http://localhost:8000',
+      headers: {
+        'X-Requested-With': 'XMLHttpRequest'
+      },
+      withCredentials: true
+    })
+
+    const signup = await http.post('/api/signup', formData);
   }
 
   handleUpdateResponse(r: any) {

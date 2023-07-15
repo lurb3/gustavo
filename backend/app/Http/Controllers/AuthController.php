@@ -23,11 +23,11 @@ class AuthController extends Controller
     public function login()
     {
         if (! auth()->attempt(request(['email', 'password']))) {
-            abort(401);
+            response()->json(['message' => 'Not authorized'], 401);
         }
 
         $token = auth()->user()->createToken('auth_token');
-        
+
         return response()->json([
             'user' => auth()->user(),
             'token' => $token->plainTextToken
