@@ -5,15 +5,15 @@
       <form class="login-form">
         <mat-form-field appearance="outline">
           <mat-label>Email</mat-label>
-          <input matInput placeholder="Enter your email" name="email" [(ngModel)]="email">
+          <input matInput placeholder="Enter your email" name="email" [(ngModel)]="email" [disabled]="isLoading">
         </mat-form-field>
 
         <mat-form-field appearance="outline">
           <mat-label>Password</mat-label>
-          <input matInput type="password" placeholder="Enter your password" name="password" [(ngModel)]="password">
+          <input matInput type="password" placeholder="Enter your password" name="password" [(ngModel)]="password" [disabled]="isLoading">
         </mat-form-field>
 
-        <button mat-raised-button color="primary" type="submit" (click)="onSubmit(); false">Login</button>
+        <button mat-raised-button color="primary" type="submit" (click)="onSubmit(); false" [disabled]="isLoading">Login</button>
       </form>
     </mat-card-content>
   </mat-card>

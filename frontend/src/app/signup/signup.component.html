@@ -5,25 +5,25 @@
       <form class="signup-form">
         <mat-form-field appearance="outline">
           <mat-label>Name</mat-label>
-          <input matInput placeholder="Enter your name" name="name" [(ngModel)]="name">
+          <input matInput placeholder="Enter your name" name="name" [(ngModel)]="name" [disabled]="isLoading">
         </mat-form-field>
 
         <mat-form-field appearance="outline">
           <mat-label>Email</mat-label>
-          <input matInput placeholder="Enter your email" name="email" [(ngModel)]="email">
+          <input matInput placeholder="Enter your email" name="email" [(ngModel)]="email" [disabled]="isLoading">
         </mat-form-field>
 
         <mat-form-field appearance="outline">
           <mat-label>Password</mat-label>
-          <input matInput type="password" placeholder="Enter your password" name="password" [(ngModel)]="password">
+          <input matInput type="password" placeholder="Enter your password" name="password" [(ngModel)]="password" [disabled]="isLoading">
         </mat-form-field>
 
         <mat-form-field appearance="outline">
           <mat-label>Confirm Password</mat-label>
-          <input matInput type="password" placeholder="Confirm your password" name="confirmPassword" [(ngModel)]="confirmPassword">
+          <input matInput type="password" placeholder="Confirm your password" name="confirmPassword" [(ngModel)]="confirmPassword" [disabled]="isLoading">
         </mat-form-field>
 
-        <button mat-raised-button color="primary" type="submit" (click)="onSubmit(); false">Sign Up</button>
+        <button mat-raised-button color="primary" type="submit" (click)="onSubmit(); false" [disabled]="isLoading">Sign Up</button>
       </form>
     </mat-card-content>
   </mat-card>

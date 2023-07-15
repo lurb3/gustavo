@@ -15,15 +15,23 @@ class AuthController extends Controller
             'password' => 'required'
         ]);
 
+        $user = User::where('email', $request->email)->first();
+
+        if ($user) {
+            return response()->json(['message' => 'Email already exists'], 409);
+        }
+
         $user = User::create(request(['name', 'email', 'password']));
 
         auth()->login($user);
+
+        return true;
     }
 
     public function login()
     {
         if (! auth()->attempt(request(['email', 'password']))) {
-            response()->json(['message' => 'Not authorized'], 401);
+            return response()->json(['message' => 'Not authorized'], 401);
         }
 
         $token = auth()->user()->createToken('auth_token');

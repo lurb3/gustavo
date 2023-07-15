@@ -1,6 +1,8 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import axios from 'axios';
 import { Component } from '@angular/core';
+import { Router } from "@angular/router";
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-signup',
@@ -12,8 +14,9 @@ export class SignupComponent {
   email!: string;
   password!: string;
   confirmPassword!: string;
+  isLoading: boolean = false;
 
-  constructor(private http: HttpClient) {}
+  constructor(private router: Router) {}
 
   async onSubmit() {
     const formData = { name: this.name, email: this.email, password: this.password };
@@ -26,14 +29,35 @@ export class SignupComponent {
       withCredentials: true
     })
 
-    const signup = await http.post('/api/signup', formData);
-  }
+    this.isLoading = true;
 
-  handleUpdateResponse(r: any) {
-    console.log('---', r)
-  }
+    try {
+      const createUser = await http.post('/api/signup', formData);
+      if (createUser.status === 200) {
+        Swal.fire({
+          heightAuto: false,
+          title: 'User created',
+          confirmButtonText: 'Ok',
+          icon: 'success',
+          timer: 1500
+        }).then(({ isConfirmed }) => {
+          this.router.navigate(['/login']);
+        });
+        return;
+      }
 
-  handleError(r: any){
-    console.log('---Erro: ', r)
+      this.isLoading = false;
+    } catch (err: any) {
+      Swal.fire({
+        heightAuto: false,
+        title: 'User not created',
+        text: err?.response?.data?.message || '',
+        confirmButtonText: 'Ok',
+        icon: 'error',
+      })
+      this.isLoading = false;
+    }
+
+
   }
 }

@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from "@angular/router";
 import Swal from 'sweetalert2';
 import axios from 'axios';
 
@@ -10,8 +11,9 @@ import axios from 'axios';
 export class LoginComponent {
   email!: string;
   password!: string;
+  isLoading: boolean = false;
 
-  constructor() {}
+  constructor(private router: Router) {}
 
   async onSubmit() {
     const formData = { email: this.email, password: this.password };
@@ -23,17 +25,24 @@ export class LoginComponent {
       },
       withCredentials: true
     })
-    await http.get('/sanctum/csrf-cookie');
+    this.isLoading = true;
 
-    const login = await http.post('/api/login', formData)
+    await http.get('/sanctum/csrf-cookie');
+    const login = await http.post('/api/login', formData);
+
+    this.isLoading = false;
 
     if (login.data) {
       localStorage.setItem('authToken', login.data?.token);
-      Swal.fire(
-        'Logged in!',
-        'Good, you are in',
-        'success'
-      )
+      Swal.fire({
+        heightAuto: false,
+        title: 'Logged in!',
+        confirmButtonText: 'Ok',
+        icon: 'success',
+        timer: 1500
+      }).then(({ isConfirmed }) => {
+          this.router.navigate(['/dashboard']);
+      })
     } else {
       Swal.fire(
         'Unauthorized',
