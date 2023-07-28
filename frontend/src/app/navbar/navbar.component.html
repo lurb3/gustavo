@@ -1,6 +1,11 @@
 <mat-toolbar color="primary">
   <span>Management</span>
   <div class="spacer"></div>
-  <a mat-button routerLink="/login">Login</a>
-  <a mat-button routerLink="/signup">Signup</a>
+  <ng-container *ngIf="!isLoggedin">
+    <a mat-button routerLink="/login">Login</a>
+    <a mat-button routerLink="/signup">Signup</a>
+  </ng-container>
+  <ng-container *ngIf="isLoggedin">
+    <a mat-button routerLink="/dashboard">Dashboard</a>
+  </ng-container>
 </mat-toolbar>
