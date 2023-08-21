@@ -32,6 +32,7 @@ export class SignupComponent {
     this.isLoading = true;
 
     try {
+      await http.get('/sanctum/csrf-cookie');
       const createUser = await http.post('/api/signup', formData);
       if (createUser.status === 200) {
         Swal.fire({

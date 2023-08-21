@@ -1,0 +1,17 @@
+<mat-card>
+  <mat-card-content>
+    <form class="company-form">
+      <mat-form-field appearance="outline">
+        <mat-label>Company name</mat-label>
+        <input matInput placeholder="Company name" name="companyName" [(ngModel)]="companyName" [disabled]="isLoading">
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Role</mat-label>
+        <input matInput placeholder="Role" name="role" [(ngModel)]="role" [disabled]="isLoading">
+      </mat-form-field>
+
+      <button mat-raised-button color="primary" type="submit" (click)="createCompany(); false" [disabled]="isLoading">Create</button>
+    </form>
+  </mat-card-content>
+</mat-card>
