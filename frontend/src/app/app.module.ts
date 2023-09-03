@@ -16,6 +16,7 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { CompanyComponent } from './company/company.component';
+import { NotesComponent } from './notes/notes.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { CompanyComponent } from './company/company.component';
     LoginComponent,
     NavbarComponent,
     DashboardComponent,
-    CompanyComponent
+    CompanyComponent,
+    NotesComponent
   ],
   imports: [
     BrowserModule,

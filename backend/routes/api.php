@@ -34,4 +34,10 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::put('/{companyId}', [CompanyController::class, 'update']);
         Route::delete('/{companyId}', [CompanyController::class, 'delete']);
     });
+
+    Route::prefix('notes')->group(function() {
+       Route::get('/', [\App\Http\Controllers\NotesController::class, 'show']);
+       Route::post('/', [\App\Http\Controllers\NotesController::class, 'create']);
+       Route::delete('/{noteId}', [\App\Http\Controllers\NotesController::class, 'delete']);
+    });
 });
