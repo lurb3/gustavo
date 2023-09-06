@@ -8,4 +8,8 @@ export class AuthService {
     const authToken = localStorage.getItem('authToken');
     return !!authToken;
   }
+
+  getToken() {
+    return localStorage.getItem('authToken');
+  }
 }

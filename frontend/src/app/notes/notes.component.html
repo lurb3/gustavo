@@ -1,1 +1,27 @@
 <p>notes works!</p>
+
+<mat-card>
+  <mat-card-content>
+    <form class="login-form">
+      <mat-form-field appearance="outline">
+        <mat-label>Title</mat-label>
+        <input matInput placeholder="Title" name="title" [(ngModel)]="title" [disabled]="isLoading">
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Text</mat-label>
+        <input matInput type="text" placeholder="Text" name="text" [(ngModel)]="text" [disabled]="isLoading">
+      </mat-form-field>
+
+      <button mat-raised-button color="primary" type="submit" (click)="onSubmit(); false" [disabled]="isLoading">Create</button>
+    </form>
+  </mat-card-content>
+</mat-card>
+
+<div class="example-list" cdkDropList (cdkDropListDropped)="onDrop($event)">
+  <div class="example-box" *ngFor="let note of notes" cdkDrag>
+    <h2>{{ note.title }}</h2>
+    <p>{{ note.text }}</p>
+  </div>
+</div>
+
