@@ -10,7 +10,7 @@ class NotesController extends Controller
     public function show()
     {
         $userId = auth()->user()->id;
-        $notes = Note::where('user_id', $userId)->get();
+        $notes = Note::where('user_id', $userId)->orderBy('position')->get();
 
         return response()->json([
             'notes' => $notes
@@ -27,8 +27,12 @@ class NotesController extends Controller
         ]);
 
         $validated['user_id'] = $userId;
+        $validated['position'] = 0;
+
+        // Need to update all user's notes and change their positions OR just put position as max position + 1
 
         $note = Note::create($validated);
+
 
         return response()->json($note);
     }

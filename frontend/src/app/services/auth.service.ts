@@ -9,6 +9,10 @@ export class AuthService {
     return !!authToken;
   }
 
+  logout() {
+    localStorage.removeItem('authToken');
+  }
+
   getToken() {
     return localStorage.getItem('authToken');
   }

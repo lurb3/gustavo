@@ -13,14 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('notes', function (Blueprint $table) {
+        Schema::create('note_lists', function (Blueprint $table) {
             $table->id();
             $table->string('title');
-            $table->string('text');
             $table->integer('position')->default(0)->nullable();
-            $table->unsignedBigInteger('note_list_id')->default(1);
             $table->unsignedBigInteger('user_id');
-            $table->foreign('note_list_id')->references('id')->on('note_lists');
             $table->foreign('user_id')->references('id')->on('users');
             $table->timestamps();
         });
@@ -33,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('notes');
+        Schema::dropIfExists('note_lists');
     }
 };

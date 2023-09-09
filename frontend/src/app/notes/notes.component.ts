@@ -2,6 +2,7 @@ import axios, {AxiosInstance, AxiosResponse} from 'axios';
 import { Component } from '@angular/core';
 import Swal from "sweetalert2";
 import { AuthService } from "../services/auth.service";
+import {AxiosInstanceService} from "../services/axios.service";
 
 @Component({
   selector: 'app-notes',
@@ -13,26 +14,19 @@ export class NotesComponent {
   title!: string;
   text!: string;
   isLoading: boolean = false;
-  http!: AxiosInstance;
+  api!: AxiosInstance;
 
-  constructor(private authService: AuthService) {
-    this.http = axios.create({
-      baseURL: 'http://localhost:8000',
-      headers: {
-        'X-Requested-With': 'XMLHttpRequest',
-        'Authorization': `Bearer ${this.authService.getToken()}`
-      },
-      withCredentials: true
-    });
+  constructor(private authService: AuthService, private axiosInstanceService: AxiosInstanceService) {
+    this.api = this.axiosInstanceService.getInstance();
     this.getNotes();
   }
 
   async getNotes() {
-
     try {
-      const notes = await this.http.get('/api/notes');
+      const notes = await this.api.get('/api/notes');
       this.notes = notes?.data?.notes;
     } catch (err: any) {
+      console.error('Error fetching notes:', err);
       Swal.fire({
         heightAuto: false,
         title: 'Could not fetch notes',
@@ -47,7 +41,7 @@ export class NotesComponent {
     const { currentIndex, previousIndex } = event;
 
     if (currentIndex === previousIndex) {
-      return; // No change in order, do nothing
+      return;
     }
 
     const movedItem = this.notes.splice(previousIndex, 1)[0]; // Remove the item from the previous position
@@ -55,7 +49,7 @@ export class NotesComponent {
   }
 
   async onSubmit() {
-    const createNote = await this.http.post('/api/notes', {title: this.title, text: this.text});
+    const createNote = await this.api.post('/api/notes', {title: this.title, text: this.text});
     this.getNotes();
   }
 

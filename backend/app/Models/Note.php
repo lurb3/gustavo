@@ -14,6 +14,8 @@ class Note extends Model
     protected $fillable = [
         'title',
         'text',
+        'list_column',
+        'list_index',
         'user_id'
     ];
 }

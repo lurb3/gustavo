@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import { Router } from "@angular/router";
+import {AxiosInstanceService} from "../services/axios.service";
 import Swal from 'sweetalert2';
-import axios from 'axios';
+import axios, {AxiosInstance} from 'axios';
 
 @Component({
   selector: 'app-login',
@@ -12,8 +13,11 @@ export class LoginComponent {
   email!: string;
   password!: string;
   isLoading: boolean = false;
+  api!: AxiosInstance;
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, private axiosInstanceService: AxiosInstanceService) {
+    this.api = this.axiosInstanceService.getInstance();
+  }
 
   async onSubmit() {
     const formData = { email: this.email, password: this.password };
@@ -27,12 +31,11 @@ export class LoginComponent {
     })
     this.isLoading = true;
 
-    await http.get('/sanctum/csrf-cookie');
-    const login = await http.post('/api/login', formData);
+    try {
+      await http.get('/sanctum/csrf-cookie');
+      const login = await this.api.post('/api/login', formData);
 
-    this.isLoading = false;
-
-    if (login.data) {
+      this.isLoading = false;
       localStorage.setItem('authToken', login.data?.token);
       Swal.fire({
         heightAuto: false,
@@ -41,15 +44,18 @@ export class LoginComponent {
         icon: 'success',
         timer: 1500
       }).then(({ isConfirmed }) => {
-          this.router.navigate(['/dashboard']);
+        this.router.navigate(['/dashboard']);
       })
-    } else {
-      Swal.fire(
-        'Unauthorized',
-        'Incorrect email or password',
-        'error'
-      )
+    } catch (err) {
+      this.isLoading = false;
+      Swal.fire({
+        heightAuto: false,
+        position: "center",
+        icon: 'error',
+        title: 'Unauthorized',
+        text: "Incorrect email or password",
+        timer: 1500
+      })
     }
-
   }
 }
