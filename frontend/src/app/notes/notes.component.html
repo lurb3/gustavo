@@ -1,27 +1,27 @@
-<p>notes works!</p>
 
-<mat-card>
-  <mat-card-content>
-    <form class="login-form">
-      <mat-form-field appearance="outline">
-        <mat-label>Title</mat-label>
-        <input matInput placeholder="Title" name="title" [(ngModel)]="title" [disabled]="isLoading">
-      </mat-form-field>
-
-      <mat-form-field appearance="outline">
-        <mat-label>Text</mat-label>
-        <input matInput type="text" placeholder="Text" name="text" [(ngModel)]="text" [disabled]="isLoading">
-      </mat-form-field>
-
-      <button mat-raised-button color="primary" type="submit" (click)="onSubmit(); false" [disabled]="isLoading">Create</button>
-    </form>
-  </mat-card-content>
-</mat-card>
-
-<div class="example-list" cdkDropList (cdkDropListDropped)="onDrop($event)">
-  <div class="example-box" *ngFor="let note of notes" cdkDrag>
-    <h2>{{ note.title }}</h2>
-    <p>{{ note.text }}</p>
+<div cdkDropList [cdkDropListData]="list" *ngFor="let list of noteLists" (cdkDropListDropped)="drop($event)">
+  {{ list.title }}
+  <div class="example-list" cdkDropList (cdkDropListDropped)="onDrop($event)">
+    <div class="example-box" [cdkDragData]="note" *ngFor="let note of notes" cdkDrag>
+      <h2>{{ note.title }}</h2>
+      <p>{{ note.text }}</p>
+    </div>
   </div>
-</div>
+    <mat-card>
+      <mat-card-content style="padding: 20px 0px;">
+        <form class="login-form" class="create-note">
+          <mat-form-field appearance="outline">
+            <mat-label>Title</mat-label>
+            <input matInput placeholder="Title" name="title" [(ngModel)]="title" [disabled]="isLoading">
+          </mat-form-field>
 
+          <mat-form-field appearance="outline">
+            <mat-label>Text</mat-label>
+            <input matInput type="text" placeholder="Text" name="text" [(ngModel)]="text" [disabled]="isLoading">
+          </mat-form-field>
+
+          <button mat-raised-button color="primary" type="submit" (click)="onSubmit(); false" [disabled]="isLoading">Create</button>
+        </form>
+      </mat-card-content>
+    </mat-card>
+</div>

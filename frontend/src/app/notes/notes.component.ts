@@ -10,15 +10,35 @@ import {AxiosInstanceService} from "../services/axios.service";
   styleUrls: ['./notes.component.scss']
 })
 export class NotesComponent {
+  noteLists!: any;
   notes!: any;
   title!: string;
   text!: string;
+  note_list_id: number = 0;
   isLoading: boolean = false;
   api!: AxiosInstance;
 
   constructor(private authService: AuthService, private axiosInstanceService: AxiosInstanceService) {
     this.api = this.axiosInstanceService.getInstance();
-    this.getNotes();
+    this.getNoteLists();
+  }
+
+  async getNoteLists() {
+    try {
+      const noteLists = await this.api.get('/api/note_lists');
+      console.log(noteLists)
+      this.noteLists = noteLists?.data?.note_lists;
+      this.getNotes();
+    } catch (err: any) {
+      console.error('Error fetching note lists:', err);
+      Swal.fire({
+        heightAuto: false,
+        title: 'Could not fetch note lists',
+        text: err?.response?.data?.message || '',
+        confirmButtonText: 'Ok',
+        icon: 'error',
+      })
+    }
   }
 
   async getNotes() {
@@ -37,19 +57,33 @@ export class NotesComponent {
     }
   }
 
-  onDrop(event: any) {
+  async drop(event: any) {
+
+  }
+
+  async onDrop(event: any) {
     const { currentIndex, previousIndex } = event;
 
     if (currentIndex === previousIndex) {
       return;
     }
 
-    const movedItem = this.notes.splice(previousIndex, 1)[0]; // Remove the item from the previous position
-    this.notes.splice(currentIndex, 0, movedItem); // Insert the item at the new position
+    const movedItem = this.notes.splice(previousIndex, 1)[0];
+    this.notes.splice(currentIndex, 0, movedItem);
+
+    const noteId = event.item?.data?.id;
+    const updatedNotes = await this.api.post(`api/notes/position/${noteId}`, {
+      curr: currentIndex
+    });
+
   }
 
   async onSubmit() {
-    const createNote = await this.api.post('/api/notes', {title: this.title, text: this.text});
+    const createNote = await this.api.post('/api/notes', {
+      title: this.title,
+      text: this.text,
+      note_list_id: this.note_list_id
+    });
     this.getNotes();
   }
 

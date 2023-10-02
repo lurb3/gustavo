@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\NoteList;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -22,6 +23,7 @@ class AuthController extends Controller
         }
 
         $user = User::create(request(['name', 'email', 'password']));
+        NoteList::create(['title' => 'To do', 'user_id' => $user->id]);
 
         auth()->login($user);
 

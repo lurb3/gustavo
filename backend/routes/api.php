@@ -38,6 +38,11 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::prefix('notes')->group(function() {
        Route::get('/', [\App\Http\Controllers\NotesController::class, 'show']);
        Route::post('/', [\App\Http\Controllers\NotesController::class, 'create']);
+       Route::post('/position/{noteId}', [\App\Http\Controllers\NotesController::class, 'changePosition']);
        Route::delete('/{noteId}', [\App\Http\Controllers\NotesController::class, 'delete']);
+    });
+
+    Route::prefix('note_lists')->group(function() {
+        Route::get('/', [\App\Http\Controllers\NoteListsController::class, 'show']);
     });
 });
